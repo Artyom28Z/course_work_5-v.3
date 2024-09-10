@@ -6,6 +6,8 @@ class HhCompany:
 
     @classmethod
     def company_list(cls, companies: list[dict]):
+        """Класс-метод критериев компании
+        """
         company_list: list = []
         company_ids = set()
         for company in companies:
