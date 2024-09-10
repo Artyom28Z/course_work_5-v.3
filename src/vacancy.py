@@ -13,6 +13,8 @@ class HhVacancy:
 
     @classmethod
     def make_object_list(cls, vacancies: list[dict]) -> list:
+        """Класс-метод критериев вакансии
+        """
         vacancies_list = []
         for vacancy in vacancies:
             temp: HhVacancy = cls(
