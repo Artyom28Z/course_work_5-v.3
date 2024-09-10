@@ -1,4 +1,4 @@
-import psycopg2
+import psycopg
 
 from src.company import HhCompany
 from src.vacancy import HhVacancy
@@ -8,19 +8,19 @@ class DbCreator:
     # def __init__(self, dbname, params):
     #     self.dbname = dbname
     #     self.params = params
-    # def __init__(self, host, database, user, password, port):
-    #     self.host = host
-    #     self.database = database
-    #     self.user = user
-    #     self.password = password
-    #     self.port = port
+    def __init__(self, host, database, user, password, port):
+        self.host = host
+        self.database = database
+        self.user = user
+        self.password = password
+        self.port = port
 
-    #(host=self.host, database=self.database, user=self.user, password=self.password, port=self.port)
+    #(host=self.host, dbname=self.database, user=self.user, password=self.password, port=self.port)
 
     def create_database(self):
-        conn = psycopg2.connect(host='localhost', database='postgres', user='postgres', password='2828',
-                                port='5432')
-        conn.set_client_encoding('UTF8')
+        conn = psycopg.connect(host=self.host, dbname=self.database, user=self.user, password=self.password,
+                               port=self.port)
+        #conn.set_client_encoding('UTF8')
         conn.autocommit = True
         with conn.cursor() as cursor:
             cursor.execute(f"""UPDATE pg_database SET datallowconn = 'false' WHERE datname = 'postgres'""")
@@ -34,8 +34,8 @@ class DbCreator:
         conn.close()
 
     def save_data_to_db(self, vacancies: list[HhVacancy], companies: [HhCompany]):
-        with psycopg2.connect(host='localhost', database='postgres', user='postgres', password='2828',
-                              port='5432') as conn:
+        with psycopg.connect(host=self.host, dbname=self.database, user=self.user, password=self.password,
+                             port=self.port) as conn:
             with conn.cursor() as cursor:
                 for company in companies:
                     cursor.execute("""
@@ -54,8 +54,8 @@ class DbCreator:
         conn.close()
 
     def create_tables(self):
-        with psycopg2.connect(host='localhost', database='postgres', user='postgres', password='2828',
-                              port='5432') as conn:
+        with psycopg.connect(host=self.host, dbname=self.database, user=self.user, password=self.password,
+                             port=self.port) as conn:
             with conn.cursor() as cursor:
                 cursor.execute("""
                     CREATE TABLE companies (

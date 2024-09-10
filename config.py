@@ -1,7 +1,7 @@
 host = 'localhost'
-database = 'postgres_database'
+database = 'postgres'
 user = 'postgres'
-password = '2828'
+password = 'Sp2895'
 port = '5432'
 
 # def __init__(self, host, database, user, password, port):

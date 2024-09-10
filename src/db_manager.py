@@ -1,4 +1,4 @@
-import psycopg2
+import psycopg
 
 
 class DbManager:
@@ -7,31 +7,31 @@ class DbManager:
     #     self.params = params
     #     (database=self.dbname, **self.params)
 
-    # def __init__(self, host, database, user, password, port):
-    #     self.host = host
-    #     self.database = database
-    #     self.user = user
-    #     self.password = password
-    #     self.port = port
+    def __init__(self, host, database, user, password, port):
+        self.host = host
+        self.database = database
+        self.user = user
+        self.password = password
+        self.port = port
         #(host=self.host, database=self.database, user=self.user, password=self.password, port=self.port)
 
     def get_companies_end_vacancies_count(self):
-        with psycopg2.connect(host='localhost', database='postgres', user='postgres', password='2828',
-                              port='5432', charset='utf8') as conn:
-            with conn.cursor() as cursor:
-                cursor.execute("""
-                SELECT companies.name, COUNT(*) AS vacancies_count
-                FROM companies
-                JOIN vacancies USING (company_id)
-                GROUP BY companies.name
-                """)
-                result = cursor.fetchall()
+        conn = psycopg.connect(host=self.host, dbname=self.database, user=self.user, password=self.password,
+                               port=self.port)
+        with conn.cursor() as cursor:
+            cursor.execute("""
+            SELECT companies.name, COUNT(*) AS vacancies_count
+            FROM companies
+            JOIN vacancies USING (company_id)
+            GROUP BY companies.name
+            """)
+            result = cursor.fetchall()
         conn.close()
         return result
 
     def get_all_vacancies(self):
-        with psycopg2.connect(host='localhost', database='postgres', user='postgres', password='2828',
-                              port='5432', charset='utf8') as conn:
+        with psycopg.connect(host=self.host, dbname=self.database, user=self.user, password=self.password,
+                             port=self.port) as conn:
             with conn.cursor() as cursor:
                 cursor.execute("""
                 SELECT companies.name, vacancies.name, salary_from, salary_to, vacancies.url 
@@ -43,8 +43,8 @@ class DbManager:
         return result
 
     def get_avg_salary(self):
-        with psycopg2.connect(host='localhost', database='postgres', user='postgres', password='2828',
-                              port='5432', charset='utf8') as conn:
+        with psycopg.connect(host=self.host, dbname=self.database, user=self.user, password=self.password,
+                             port=self.port) as conn:
             with conn.cursor() as cursor:
                 cursor.execute("""
                 SELECT CAST(AVG(salary_from) as INT) 
@@ -55,8 +55,8 @@ class DbManager:
         return result
 
     def get_vacancies_with_higher_salary(self):
-        with psycopg2.connect(host='localhost', database='postgres', user='postgres', password='2828',
-                              port='5432', charset='utf8') as conn:
+        with psycopg.connect(host=self.host, dbname=self.database, user=self.user, password=self.password,
+                             port=self.port) as conn:
             with conn.cursor() as cursor:
                 cursor.execute(f"""
                                 SELECT * FROM vacancies
@@ -68,8 +68,8 @@ class DbManager:
             return result
 
     def get_vacancies_with_keyword(self, keyword: str):
-        with psycopg2.connect(host='localhost', database='postgres', user='postgres', password='2828',
-                              port='5432', charset='utf8') as conn:
+        with psycopg.connect(host=self.host, dbname=self.database, user=self.user, password=self.password,
+                             port=self.port) as conn:
             with conn.cursor() as cursor:
                 cursor.execute(f"""
                 SELECT * FROM vacancies
