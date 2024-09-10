@@ -18,6 +18,8 @@ class DbCreator:
     #(host=self.host, dbname=self.database, user=self.user, password=self.password, port=self.port)
 
     def create_database(self):
+        """Метод удаления базы данных(для повторного запуска проекта) и создания базы данных
+        """
         conn = psycopg.connect(host=self.host, dbname=self.database, user=self.user, password=self.password,
                                port=self.port)
         #conn.set_client_encoding('UTF8')
@@ -34,6 +36,8 @@ class DbCreator:
         conn.close()
 
     def save_data_to_db(self, vacancies: list[HhVacancy], companies: [HhCompany]):
+        """Метод записи и сохранения в базы данных
+        """
         with psycopg.connect(host=self.host, dbname=self.database, user=self.user, password=self.password,
                              port=self.port) as conn:
             with conn.cursor() as cursor:
@@ -54,6 +58,8 @@ class DbCreator:
         conn.close()
 
     def create_tables(self):
+        """Метод создания столбцов баз данных
+        """
         with psycopg.connect(host=self.host, dbname=self.database, user=self.user, password=self.password,
                              port=self.port) as conn:
             with conn.cursor() as cursor:
