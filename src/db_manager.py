@@ -16,6 +16,8 @@ class DbManager:
         #(host=self.host, database=self.database, user=self.user, password=self.password, port=self.port)
 
     def get_companies_end_vacancies_count(self):
+        """Метод создания списка всех компаний и колечества вакансий у каждой компании
+        """
         conn = psycopg.connect(host=self.host, dbname=self.database, user=self.user, password=self.password,
                                port=self.port)
         with conn.cursor() as cursor:
@@ -30,6 +32,8 @@ class DbManager:
         return result
 
     def get_all_vacancies(self):
+        """Метод создания списка вакансий с указанием компании, вакансии, зарплаты и ссылки
+        """
         with psycopg.connect(host=self.host, dbname=self.database, user=self.user, password=self.password,
                              port=self.port) as conn:
             with conn.cursor() as cursor:
@@ -43,6 +47,8 @@ class DbManager:
         return result
 
     def get_avg_salary(self):
+        """Метод получения средней зарплаты
+        """
         with psycopg.connect(host=self.host, dbname=self.database, user=self.user, password=self.password,
                              port=self.port) as conn:
             with conn.cursor() as cursor:
@@ -55,6 +61,8 @@ class DbManager:
         return result
 
     def get_vacancies_with_higher_salary(self):
+        """Метод создания списка вакансий с зарплатой выше средней
+        """
         with psycopg.connect(host=self.host, dbname=self.database, user=self.user, password=self.password,
                              port=self.port) as conn:
             with conn.cursor() as cursor:
@@ -68,6 +76,8 @@ class DbManager:
             return result
 
     def get_vacancies_with_keyword(self, keyword: str):
+        """Метод создания списка вакансий, в которых содержится введенное ключевое слово
+        """
         with psycopg.connect(host=self.host, dbname=self.database, user=self.user, password=self.password,
                              port=self.port) as conn:
             with conn.cursor() as cursor:
