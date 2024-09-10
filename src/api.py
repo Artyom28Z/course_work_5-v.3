@@ -47,13 +47,19 @@ class HhApi(Api):
 
     @property
     def url(self) -> str:
+        """Метод возвращающий ссылку для подключения
+        """
         hh_url = "https://api.hh.ru/vacancies"
         return hh_url
 
     def _get_response(self) -> Response:
+        """Метод подключения к API HeadHunter
+        """
         return requests.get(self.url, headers=self.headers, params=self.__params)
 
     def get_vacancies(self) -> None:
+        """Метод создания списка словарей с вакансиями
+        """
         response = self._get_response()
         is_allowed = self._check_status(response)
         #if not is_allowed:
@@ -70,8 +76,12 @@ class HhApi(Api):
 
     @property
     def vacancies(self):
+        """Геттер списка вакансий
+        """
         return self.__vacancies
 
     @staticmethod
     def _check_status(response: Response) -> bool:
+        """Статический метод проверки подключения
+        """
         return response.status_code == 200
