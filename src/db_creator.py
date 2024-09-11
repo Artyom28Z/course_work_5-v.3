@@ -30,7 +30,7 @@ class DbCreator:
             cursor.execute(f"""CREATE DATABASE {self.database}
                                WITH
                                OWNER = '{self.user}'
-                               ENCODING = '{self.encoding}'""")
+                               ENCODING = 'UTF8'""")
         conn.close()
 
     def save_data_to_db(self, vacancies: list[HhVacancy], companies: [HhCompany]):
