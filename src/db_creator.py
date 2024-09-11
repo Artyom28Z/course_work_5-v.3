@@ -5,41 +5,39 @@ from src.vacancy import HhVacancy
 
 
 class DbCreator:
-    # def __init__(self, dbname, params):
-    #     self.dbname = dbname
-    #     self.params = params
-    def __init__(self, host, database, user, password, port):
+
+    def __init__(self, host, database, user, password, port, encoding):
         self.host = host
         self.database = database
         self.user = user
         self.password = password
         self.port = port
+        self.encoding = encoding
 
-    #(host=self.host, dbname=self.database, user=self.user, password=self.password, port=self.port)
 
     def create_database(self):
         """Метод удаления базы данных(для повторного запуска проекта) и создания базы данных
         """
         conn = psycopg.connect(host=self.host, dbname=self.database, user=self.user, password=self.password,
-                               port=self.port)
+                               port=self.port, client_encoding=self.encoding)
         #conn.set_client_encoding('UTF8')
         conn.autocommit = True
         with conn.cursor() as cursor:
-            cursor.execute(f"""UPDATE pg_database SET datallowconn = 'false' WHERE datname = 'postgres'""")
+            cursor.execute(f"""UPDATE pg_database SET datallowconn = 'false' WHERE datname = '{self.database}'""")
             cursor.execute(f"""SELECT pg_terminate_backend(pg_stat_activity.pid) FROM pg_stat_activity
-                           WHERE pg_stat_activity.datname = 'postgres' AND pid <> pg_backend_pid()""")
-            cursor.execute(f'DROP DATABASE IF EXISTS postgres')
-            cursor.execute(f"""CREATE DATABASE postgres
+                           WHERE pg_stat_activity.datname = '{self.database}' AND pid <> pg_backend_pid()""")
+            cursor.execute(f'DROP DATABASE IF EXISTS {self.database}')
+            cursor.execute(f"""CREATE DATABASE {self.database}
                                WITH
-                               OWNER = 'postgres'
-                               ENCODING = 'UTF8'""")
+                               OWNER = '{self.user}'
+                               ENCODING = '{self.encoding}'""")
         conn.close()
 
     def save_data_to_db(self, vacancies: list[HhVacancy], companies: [HhCompany]):
         """Метод записи и сохранения в базы данных
         """
         with psycopg.connect(host=self.host, dbname=self.database, user=self.user, password=self.password,
-                             port=self.port) as conn:
+                             port=self.port, client_encoding=self.encoding) as conn:
             with conn.cursor() as cursor:
                 for company in companies:
                     cursor.execute("""
@@ -61,7 +59,7 @@ class DbCreator:
         """Метод создания столбцов баз данных
         """
         with psycopg.connect(host=self.host, dbname=self.database, user=self.user, password=self.password,
-                             port=self.port) as conn:
+                             port=self.port, client_encoding=self.encoding) as conn:
             with conn.cursor() as cursor:
                 cursor.execute("""
                     CREATE TABLE companies (
