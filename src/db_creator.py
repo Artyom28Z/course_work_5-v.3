@@ -50,7 +50,7 @@ class DbCreator:
                     INSERT INTO vacancies (vacancy_id, company_id, name, city, url, 
                     salary_from, salary_to, requirements)
                     VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
-                    """, (vacancy.vacancy_id, vacancy.company_id, vacancy.name, vacancy.city, vacancy.url,
+                    """, (vacancy.vacancy_id, vacancy.company_id, vacancy.name, vacancy.city, vacancy.link,
                           vacancy.salary_from, vacancy.salary_to, vacancy.requirements)
                                    )
         conn.close()
