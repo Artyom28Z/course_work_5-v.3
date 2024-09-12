@@ -24,9 +24,9 @@ class HhVacancy:
                 company_id=vacancy["employer"]["id"],
                 salary_from=vacancy["salary"]["from"] if vacancy["salary"] else 0,
                 salary_to=vacancy["salary"]["to"] if vacancy["salary"] else 0,
-                city=vacancy["area"],
+                city=vacancy["area"]["name"],
                 experience=vacancy["experience"],
-                requirements=vacancy["employment"]
+                requirements=vacancy["employment"]["name"]
             )
             vacancies_list.append(temp)
         return vacancies_list

@@ -53,7 +53,7 @@ class DbCreator:
                         vacancy_id INT PRIMARY KEY,
                         company_id INT REFERENCES companies(company_id),
                         name VARCHAR(200) NOT NULL,
-                        city VARCHAR(50),
+                        city VARCHAR(100),
                         url VARCHAR(100),
                         salary_from INT,
                         salary_to INT,
