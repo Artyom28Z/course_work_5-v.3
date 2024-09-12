@@ -3,18 +3,19 @@ import psycopg
 
 class DbManager:
 
-    def __init__(self, host, database, user, password, port, encoding):
+    def __init__(self, host, database, user, password, port, encoding, db_name):
         self.host = host
         self.database = database
         self.user = user
         self.password = password
         self.port = port
         self.encoding = encoding
+        self.db_name = db_name
 
     def get_companies_end_vacancies_count(self):
         """Метод создания списка всех компаний и колечества вакансий у каждой компании
         """
-        conn = psycopg.connect(host=self.host, dbname=self.database, user=self.user, password=self.password,
+        conn = psycopg.connect(host=self.host, dbname=self.db_name, user=self.user, password=self.password,
                                port=self.port, client_encoding=self.encoding)
         with conn.cursor() as cursor:
             cursor.execute("""
@@ -30,7 +31,7 @@ class DbManager:
     def get_all_vacancies(self):
         """Метод создания списка вакансий с указанием компании, вакансии, зарплаты и ссылки
         """
-        with psycopg.connect(host=self.host, dbname=self.database, user=self.user, password=self.password,
+        with psycopg.connect(host=self.host, dbname=self.db_name, user=self.user, password=self.password,
                              port=self.port, client_encoding=self.encoding) as conn:
             with conn.cursor() as cursor:
                 cursor.execute("""
@@ -45,7 +46,7 @@ class DbManager:
     def get_avg_salary(self):
         """Метод получения средней зарплаты
         """
-        with psycopg.connect(host=self.host, dbname=self.database, user=self.user, password=self.password,
+        with psycopg.connect(host=self.host, dbname=self.db_name, user=self.user, password=self.password,
                              port=self.port, client_encoding=self.encoding) as conn:
             with conn.cursor() as cursor:
                 cursor.execute("""
@@ -59,7 +60,7 @@ class DbManager:
     def get_vacancies_with_higher_salary(self):
         """Метод создания списка вакансий с зарплатой выше средней
         """
-        with psycopg.connect(host=self.host, dbname=self.database, user=self.user, password=self.password,
+        with psycopg.connect(host=self.host, dbname=self.db_name, user=self.user, password=self.password,
                              port=self.port, client_encoding=self.encoding) as conn:
             with conn.cursor() as cursor:
                 cursor.execute(f"""
@@ -74,7 +75,7 @@ class DbManager:
     def get_vacancies_with_keyword(self, keyword: str):
         """Метод создания списка вакансий, в которых содержится введенное ключевое слово
         """
-        with psycopg.connect(host=self.host, dbname=self.database, user=self.user, password=self.password,
+        with psycopg.connect(host=self.host, dbname=self.db_name, user=self.user, password=self.password,
                              port=self.port, client_encoding=self.encoding) as conn:
             with conn.cursor() as cursor:
                 cursor.execute(f"""
