@@ -1,7 +1,7 @@
 host = 'localhost'
 database = 'postgres'
 user = 'postgres'
-password = 'Sp2895'
+password = 
 port = '5432'
 encoding = 'utf8'
 db_name = 'new_data_base'
